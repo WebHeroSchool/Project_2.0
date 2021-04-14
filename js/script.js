@@ -32,7 +32,19 @@ const questions = [
 	}
 ];
 
-let answers = questions.filter(item => item.correctAnswer == item.c);
-console.log(answers);
+// let answers = questions.filter(item => item.correctAnswer == item.c);
+// console.log(answers);
 
+let answers = ['Юрий Гагарин', 'Герман Титов', 'человек впервые совершил полёт в космическом пространстве', 'Михаил Ломоносов'];
 
+function checkAnswers(answers, questions) {
+	for (let i = 0; i < questions.length; i++) {
+		if (questions[i].correctAnswer == answers[i]) {
+			console.log('Ответ верный');
+		} else {
+			console.log('Ответ неверный');
+		}
+	}
+}
+
+checkAnswers(answers, questions);
