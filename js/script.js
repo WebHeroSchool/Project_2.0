@@ -4,42 +4,50 @@ let score; //для учета набранных очков
 const questions = [
 	{
 		question: "Кто стал первым в истории человеком, который полетел в Космос?", 
-		a: "Герман Титов",
-		b: "Юрий Гагарин",
-		c: "Алексей Леонов",
-		correctAnswer: "Юрий Гагарин"
+		answers: {
+			a: "Герман Титов",
+			b: "Юрий Гагарин",
+			c: "Алексей Леонов"
+		},
+		correctAnswer: "b"
 	},
 	{
 		question: "Кто стал первым в истории человеком, который вышел из космического корабля в открытый Космос?", 
-		a: "Герман Титов",
-		b: "Юрий Гагарин",
-		c: "Алексей Леонов",
-		correctAnswer: "Алексей Леонов"
+		answers: {
+			a: "Герман Титов",
+			b: "Юрий Гагарин",
+			c: "Алексей Леонов"
+		},
+		correctAnswer: "c"
 	},
 	{
 		question: "Что именно произошло 12 апреля 1961 года?", 
-		a: "родился Юрий Гагарин",
-		b: "был запущен первый космический спутник",
-		c: "человек впервые совершил полёт в космическом пространстве",
-		correctAnswer: "человек впервые совершил полёт в космическом пространстве"
+		answers: {
+			a: "родился Юрий Гагарин",
+			b: "был запущен первый космический спутник",
+			c: "человек впервые совершил полёт в космическом пространстве"
+		},
+		correctAnswer: "c"
 	},
 	{
 		question: "Как звали конструктора, благодаря которому стал возможен первый космический полёт?", 
-		a: "Сергей Королёв",
-		b: "Михаил Тихонравов",
-		c: "Михаил Ломоносов",
-		correctAnswer: "Сергей Королёв"
+		answers: {
+			a: "Сергей Королёв",
+			b: "Михаил Тихонравов",
+			c: "Михаил Ломоносов"
+		},
+		correctAnswer: "a"
 	}
 ];
 
 // let answers = questions.filter(item => item.correctAnswer == item.c);
 // console.log(answers);
 
-let answers = ['Юрий Гагарин', 'Герман Титов', 'человек впервые совершил полёт в космическом пространстве', 'Михаил Ломоносов'];
+let answer = ['b', 'b', 'c', 'b'];
 
-function checkAnswers(answers, questions) {
+function checkAnswers(answer, questions) {
 	for (let i = 0; i < questions.length; i++) {
-		if (questions[i].correctAnswer == answers[i]) {
+		if (questions[i].correctAnswer == answer[i]) {
 			console.log('Ответ верный');
 		} else {
 			console.log('Ответ неверный');
@@ -47,4 +55,4 @@ function checkAnswers(answers, questions) {
 	}
 }
 
-checkAnswers(answers, questions);
+checkAnswers(answer, questions);
