@@ -45,6 +45,7 @@ let resultContainer = document.getElementById('results');
 let previousButton = document.getElementById('previous');
 let nextButton = document.getElementById('next');
 
+
 // let answers = questions.filter(item => item.correctAnswer == item.c);
 // console.log(answers);
 
@@ -144,15 +145,36 @@ const showResults = () => {
 	resultContainer.innerHTML = `Количество правильных ответов: ${numCorrect} из ${questions.length}`;
 }
 
+function showSlide (currentSlide) {
+	slides[currentSlide].classList.remove('active-slide');
+	slides[currentSlide].classList.add('active-slide');
+
+	let i;
+	for (i; i < question.length; i++) {
+		if (questions[i].question == search) {
+			let numSlide = document.createElement('div');
+			numSlide.classList.add('num-slide');
+			numSlide.innerHTML = `Вопрос номер: ${i}`;
+			questionItem.prependChild(numSlide);
+		}
+	}
+}
+
 function showPreviousSlide () {
-	console.log('Вывести предыдущий слайд');
+	showSlide(currentSlide - 1);
+	// console.log('Вывести предыдущий слайд');
 }
 
 function showNextSlide () {
-	console.log('Вывести следующий слайд');
+	showSlide(currentSlide + 1);
+	// console.log('Вывести следующий слайд');
 }
 
+let slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
+
 buildQuiz();
+showSlide(0);
 
 previousButton.addEventListener('click', showPreviousSlide);
 nextButton.addEventListener('click', showNextSlide);

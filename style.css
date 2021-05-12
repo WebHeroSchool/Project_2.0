@@ -1,0 +1,22 @@
+body {
+	background-color: #ADD8E6;
+}
+
+.slide{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.active-slide{
+  opacity: 2;
+  z-index: 3;
+}
+.quiz-container{
+  position: relative;
+  height: 200px;
+  margin-top: 40px;
+}
