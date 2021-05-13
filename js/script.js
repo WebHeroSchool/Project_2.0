@@ -120,11 +120,13 @@ function showSlide (n) {
 		submitButton.style.display = 'none';
 	}
 
-	questions.forEach((numSlide, questionNumber) => {
-		let num = questions.indexOf(numSlide);
-		slideNumber.innerHTML = `Вопрос номер: ${num}`;
-		// questionItem.prepend(numSlideShow);
-	});
+
+
+	// questions.find((numSlide) => {
+	// 	let num = questions.indexOf(numSlide);
+	// 	slideNumber.innerHTML = `Вопрос номер: ${num}`;
+	// 	// questionItem.prepend(numSlideShow);
+	// });
 
 	// for (let i = 0; i < questions.length; i++) {
 	// 		let num = questions[i].question;
@@ -145,13 +147,24 @@ function showSlide (n) {
 	
 }
 
-function showPreviousSlide () {
-	showSlide(currentSlide - 1);
-}
-
 function showNextSlide () {
 	showSlide(currentSlide + 1);
+
+	slideNumber.innerHTML = `Вопрос номер: ${num ++}`;
+
+	// let num = currentSlide + 1;
+	// slideNumber.innerHTML = `Вопрос номер: ${num}`;
 }
+
+function showPreviousSlide () {
+	showSlide(currentSlide - 1);
+
+	slideNumber.innerHTML = `Вопрос номер: ${num --}`;
+}
+
+let num = 1;
+
+
 
 //выводим в окно колич правильных ответов
 // let replyCounter = document.createElement('div');
