@@ -40,11 +40,6 @@ const questions = [
 // let num; //для перехода между вопросами при увеличении значения переменной
 // let answer = ['b', 'b', 'c', 'b'];
 
-let questionItem = document.getElementById('question');
-let resultContainer = document.getElementById('results');
-let previousButton = document.getElementById('previous');
-let nextButton = document.getElementById('next');
-
 
 // let answers = questions.filter(item => item.correctAnswer == item.c);
 // console.log(answers);
@@ -106,13 +101,63 @@ function buildQuiz() {
 	questionItem.innerHTML = output.join("");
 }
 
+function showSlide (n) {
+	slides[currentSlide].classList.remove('active-slide');
+	slides[n].classList.add('active-slide');
+	currentSlide = n;
+
+	if (currentSlide === 0) {
+		previousButton.style.display = 'none';
+	} else {
+		previousButton.style.display = 'inline-block';
+	}
+
+	if (currentSlide === slides.length - 1) {
+		nextButton.style.display = 'none';
+		submitButton.style.display = 'inline-block';
+	} else {
+		nextButton.style.display = 'inline-block';
+		submitButton.style.display = 'none';
+	}
+
+	questions.forEach((numSlide, questionNumber) => {
+		let num = questions.indexOf(numSlide);
+		slideNumber.innerHTML = `Вопрос номер: ${num}`;
+		// questionItem.prepend(numSlideShow);
+	});
+
+	// for (let i = 0; i < questions.length; i++) {
+	// 		let num = questions[i].question;
+	// 		let numSlide = document.createElement('div');
+	// 		numSlide.classList.add('num-slide');
+	// 		numSlide.innerHTML = `Вопрос номер: ${num}`;
+	// 		questionItem.appendChild(numSlide);
+	// 	}
+
+	// for (let i = 0; i < questions.length; i++) {
+	// 		let num = questions.indexOf(1);
+	// 		let numSlide = document.createElement('div');
+	// 		numSlide.classList.add('num-slide');
+	// 		numSlide.innerHTML = `Вопрос номер: ${num}`;
+	// 		questionItem.appendChild(numSlide);
+	// 	}
+	
+	
+}
+
+function showPreviousSlide () {
+	showSlide(currentSlide - 1);
+}
+
+function showNextSlide () {
+	showSlide(currentSlide + 1);
+}
 
 //выводим в окно колич правильных ответов
 // let replyCounter = document.createElement('div');
 // replyCounter.classList.add('counter');
 // replyCounter.innerHTML = `Количество правильных ответов: ${score}`;
 // questionItem.appendChild(replyCounter);
-
 const showResults = () => {
 	//собрать контейнеры с ответами из нашей викторины
 	const answerContainers = questionItem.querySelectorAll('.answers');
@@ -145,38 +190,22 @@ const showResults = () => {
 	resultContainer.innerHTML = `Количество правильных ответов: ${numCorrect} из ${questions.length}`;
 }
 
-function showSlide (currentSlide) {
-	slides[currentSlide].classList.remove('active-slide');
-	slides[currentSlide].classList.add('active-slide');
+const questionItem = document.getElementById('question');
+const resultContainer = document.getElementById('results');
+const submitButton = document.getElementById('submit');
+const slideNumber = document.getElementById('num-slide');
 
-	let i;
-	for (i; i < question.length; i++) {
-		if (questions[i].question == search) {
-			let numSlide = document.createElement('div');
-			numSlide.classList.add('num-slide');
-			numSlide.innerHTML = `Вопрос номер: ${i}`;
-			questionItem.prependChild(numSlide);
-		}
-	}
-}
+buildQuiz(questions);
 
-function showPreviousSlide () {
-	showSlide(currentSlide - 1);
-	// console.log('Вывести предыдущий слайд');
-}
-
-function showNextSlide () {
-	showSlide(currentSlide + 1);
-	// console.log('Вывести следующий слайд');
-}
-
-let slides = document.querySelectorAll('.slide');
+const previousButton = document.getElementById('previous');
+const nextButton = document.getElementById('next');
+const slides = document.querySelectorAll('.slide');
 let currentSlide = 0;
 
-buildQuiz();
-showSlide(0);
+showSlide(currentSlide);
 
 previousButton.addEventListener('click', showPreviousSlide);
 nextButton.addEventListener('click', showNextSlide);
+submitButton.addEventListener('click', showResults);
 
 })();
