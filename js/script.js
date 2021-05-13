@@ -152,6 +152,7 @@ function showNextSlide () {
 
 	slideNumber.innerHTML = `Вопрос номер: ${num ++}`;
 
+
 	// let num = currentSlide + 1;
 	// slideNumber.innerHTML = `Вопрос номер: ${num}`;
 }
