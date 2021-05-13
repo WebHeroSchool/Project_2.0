@@ -150,7 +150,7 @@ function showSlide (n) {
 function showNextSlide () {
 	showSlide(currentSlide + 1);
 
-	slideNumber.innerHTML = `Вопрос номер: ${num ++}`;
+	slideNumber.innerHTML = `Вопрос номер: ${++ num}`;
 
 
 	// let num = currentSlide + 1;
@@ -160,7 +160,7 @@ function showNextSlide () {
 function showPreviousSlide () {
 	showSlide(currentSlide - 1);
 
-	slideNumber.innerHTML = `Вопрос номер: ${num --}`;
+	slideNumber.innerHTML = `Вопрос номер: ${-- num}`;
 }
 
 let num = 1;
