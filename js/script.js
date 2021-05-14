@@ -37,35 +37,15 @@ const questions = [
 		correctAnswer: "a"
 	}
 ];
-// let num; //для перехода между вопросами при увеличении значения переменной
-// let answer = ['b', 'b', 'c', 'b'];
-
-
-// let answers = questions.filter(item => item.correctAnswer == item.c);
-// console.log(answers);
-
-// function checkAnswers(answer, questions) {
-// 	for (let i = 0; i < questions.length; i++) {
-// 		if (questions[i].correctAnswer == answer[i]) {
-// 			console.log('Ответ верный');
-// 			score++;
-// 		} else {
-// 			console.log('Ответ неверный');
-// 		};
-// 	};
-// }
-// checkAnswers(answer, questions);
 
 //выводим в окно список вопросов с вариантами ответов
 function buildQuiz() {
 	//массив для вывода вопросов с вариантами ответов
 	const output = [];
-
 	//для каждого вопроса...
 	questions.forEach((currentQuestion, questionNumber) => {
 		//создаем массив с вариантами ответов
 		const answers = [];
-
 		//для каждого варианта ответа...
 		for (letter in currentQuestion.answers) {
 			//добавляем radio button, выводим ключ и его значение
@@ -77,7 +57,6 @@ function buildQuiz() {
 	           </label>`
 	        );
 		}
-
 		//добавим вопрос и варианты ответов в output
 		output.push(
 			`<div class="slide">
@@ -85,18 +64,7 @@ function buildQuiz() {
 				<div class="answer">${answers.join("")}</div>
 			</div>`
 		);
-
-		// let newQuestion = document.createElement('h2');
-		// newQuestion.classList.add('title');
-		// newQuestion.innerHTML = item.question;
-		// questionItem.appendChild(newQuestion);
-
-		// let answerOptions = document.createElement('ol');
-		// answerOptions.classList.add('list');
-		// answerOptions.innerHTML = item.answers.join(' ');
-		// questionItem.appendChild(answerOptions);
 	});
-
 	//объединяем наш выходной список в одну строку HTML и помещаем ее на страницу
 	questionItem.innerHTML = output.join("");
 }
@@ -105,84 +73,39 @@ function showSlide (n) {
 	slides[currentSlide].classList.remove('active-slide');
 	slides[n].classList.add('active-slide');
 	currentSlide = n;
-
 	if (currentSlide === 0) {
 		previousButton.style.display = 'none';
 	} else {
 		previousButton.style.display = 'inline-block';
 	}
-
 	if (currentSlide === slides.length - 1) {
 		nextButton.style.display = 'none';
 		submitButton.style.display = 'inline-block';
 	} else {
 		nextButton.style.display = 'inline-block';
 		submitButton.style.display = 'none';
-	}
-
-
-
-	// questions.find((numSlide) => {
-	// 	let num = questions.indexOf(numSlide);
-	// 	slideNumber.innerHTML = `Вопрос номер: ${num}`;
-	// 	// questionItem.prepend(numSlideShow);
-	// });
-
-	// for (let i = 0; i < questions.length; i++) {
-	// 		let num = questions[i].question;
-	// 		let numSlide = document.createElement('div');
-	// 		numSlide.classList.add('num-slide');
-	// 		numSlide.innerHTML = `Вопрос номер: ${num}`;
-	// 		questionItem.appendChild(numSlide);
-	// 	}
-
-	// for (let i = 0; i < questions.length; i++) {
-	// 		let num = questions.indexOf(1);
-	// 		let numSlide = document.createElement('div');
-	// 		numSlide.classList.add('num-slide');
-	// 		numSlide.innerHTML = `Вопрос номер: ${num}`;
-	// 		questionItem.appendChild(numSlide);
-	// 	}
-	
-	
+	}	
 }
 
 function showNextSlide () {
 	showSlide(currentSlide + 1);
-
-	slideNumber.innerHTML = `Вопрос номер: ${++ num}`;
-
-
-	// let num = currentSlide + 1;
-	// slideNumber.innerHTML = `Вопрос номер: ${num}`;
+	slideNumber.innerHTML = `Вопрос ${++ num}`;
 }
 
 function showPreviousSlide () {
 	showSlide(currentSlide - 1);
-
-	slideNumber.innerHTML = `Вопрос номер: ${-- num}`;
+	slideNumber.innerHTML = `Вопрос ${-- num}`;
 }
 
-let num = 1;
-
-
-
-//выводим в окно колич правильных ответов
-// let replyCounter = document.createElement('div');
-// replyCounter.classList.add('counter');
-// replyCounter.innerHTML = `Количество правильных ответов: ${score}`;
-// questionItem.appendChild(replyCounter);
 const showResults = () => {
 	//собрать контейнеры с ответами из нашей викторины
-	const answerContainers = questionItem.querySelectorAll('.answers');
-	
+	const answerContainers = questionItem.querySelectorAll('.answer');
 	//отслеживать ответы пользователя
 	let numCorrect = 0;
-
 	//для каждого вопроса ...
 	questions.forEach((currentQuestion, questionNumber) => {
 		//найти выбранный ответ
-		//перебираем все вопросы из квиза
+		//перебрать все вопросы из квиза
 		const answerContainer = answerContainers[questionNumber];
 		//берем подходящий элемент
 		const selector = `input[name=question${questionNumber}]:checked`;
@@ -192,29 +115,57 @@ const showResults = () => {
 		if (userAnswer === currentQuestion.correctAnswer) {
 			//добавить к количеству правильных ответов единицу
 			numCorrect++;
-			//поменять цвет вопроса на зеленый
-			answerContainers[questionNumber].style.color = "#2E8B57";
-		} else {
-			//если ответ неправильный или пустой поменять цвет вопроса на красный
-			answerContainers[questionNumber].style.color = "#B22222";
 		}
 	});
-
 	//показать количество правильных ответов из общего количества
 	resultContainer.innerHTML = `Количество правильных ответов: ${numCorrect} из ${questions.length}`;
 }
 
+const checkResult = (e) => {
+	//сохраняем в переменную tar DOM-элемент, по которому произошел клик
+	const tar = e.target;
+	//проверяем был ли совершен клик по input
+	if (tar.tagName === 'INPUT') {
+		//получаем номер вопроса, копируя последний символ его атирибута name
+		const questionNumber = tar.name.slice(-1);
+		//получаем значение поля инпута
+		const userAnswer = tar.value;
+		//сравниваем выбранный пользователем ответ с выбранным ответом
+		const isCorrect = questions[questionNumber].correctAnswer === userAnswer;
+		//если пользователь дал правильный ответ
+		if(isCorrect) {
+			//тогда окрашиваем шрифт в зеленый
+			tar.parentNode.style.color = "#2E8B57";
+		} else {
+			tar.parentNode.style.color = "#B22222";
+		}
+		//выбираем все кнопки, которые находятся внутри блока с текущими вопросами
+		const radioButtons = e.currentTarget.querySelectorAll('.answer input');
+		//блокируем изменения ответа, юобавляя всем полям ввода атрибут disabled
+		radioButtons.forEach(button => button.setAttribute('disabled', true))
+	}
+}
+
+//Объявляем функцию, которая устанавлявает обработчик событий CheckResult на все блоки с вопросами
+const setAnswerHandlers = () => {
+	Array.from(questionItem.querySelectorAll('.slide .answer')).forEach(answer => {
+		answer.addEventListener('click', checkResult);
+	})
+}
+
+const slideNumber = document.getElementById('num-slide');
 const questionItem = document.getElementById('question');
 const resultContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
-const slideNumber = document.getElementById('num-slide');
 
 buildQuiz(questions);
+setAnswerHandlers();
 
 const previousButton = document.getElementById('previous');
 const nextButton = document.getElementById('next');
 const slides = document.querySelectorAll('.slide');
 let currentSlide = 0;
+let num = 1;
 
 showSlide(currentSlide);
 

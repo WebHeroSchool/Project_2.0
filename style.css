@@ -1,10 +1,30 @@
 body {
-	background-color: #ADD8E6;
+	background: url(img/space-stars.jpg);
+	font-family: 'Quicksand', sans-serif;
+}
+.wrap {
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+}
+.quiz-container{
+  position: relative;
+  height: 300px;
+  margin-top: 40px;
+  font-size: 20px;
+  color: #87CEFA;
+}
+.num-question {
+	text-align: center;
+	font-size: 40px;
+}
+.value-question {
+
 }
 .slide{
   position: absolute;
   left: 0px;
-  top: 20px;
+  top: 60px;
   width: 100%;
   z-index: 2;
   opacity: 0;
@@ -14,8 +34,56 @@ body {
   opacity: 2;
   z-index: 3;
 }
-.quiz-container{
-  position: relative;
-  height: 200px;
-  margin-top: 40px;
+.answer {
+	display: inline-flex;
+	flex-direction: column;
+}
+.question {
+	margin-bottom: 15px;
+}
+label {
+	cursor: pointer;
+	margin-bottom: 10px;
+	background-image: linear-gradient(#c5cef0, #c5cef0);
+	background-position: 0% 100%;
+	background-repeat: no-repeat;
+	background-size: 0% 2px;
+	transition: background-size .6s, color;
+}
+label:hover {
+	background-size: 100% 2px;
+	color: #c5cef0;
+}
+.scroll {
+	display: flex;
+	justify-content: space-between;
+	max-width: 400px;
+	margin-bottom: 15px;
+}
+.button {
+	cursor: pointer;
+	font-size: 15px;
+	border: solid 2px #136aa8;
+	min-width: 180px;
+	min-height: 25px;
+	text-align: center;
+	padding: 6px;
+	background: #6eb7eb;
+	color: #15374f;
+	transition: all 0.4s ease-out;
+}
+.button:hover {
+	color: #07253b;
+	box-shadow: inset 2px 2px 5px #15374f;
+}
+.submit {
+	font-size: 20px;
+	margin-bottom: 15px;
+	min-width: 250px;
+	background: #6eeba0;
+	border: solid 2px #4cd4cb;
+}
+.results {
+	color: #4cd4cb;
+	font-size: 25px;
 }
