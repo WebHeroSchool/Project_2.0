@@ -200,7 +200,7 @@ function startGame () {
 	previousButton.addEventListener('click', showPreviousSlide);
 	nextButton.addEventListener('click', showNextSlide);
 	submitButton.addEventListener('click', showResults);
-}
+} 
 
 form.addEventListener('submit', function(event) {
 	let regex = /^[А-ЯЁа-яё]{2,10}$/;
@@ -215,8 +215,10 @@ form.addEventListener('submit', function(event) {
 		error.className = 'error-block';
 		error.innerHTML = 'Укажите верное имя';
 		nameForm.parentElement.insertBefore(error, nameForm);
+	} else {
+		startButton.addEventListener('click', startGame);
 	}
 })
 
-startButton.addEventListener('click', startGame);
+
 
