@@ -7,6 +7,22 @@ body {
 	margin-right: auto;
 	width: 700px;
 }
+
+.start-game {
+	text-align: center;
+	font-size: 40px;
+    color: #87CEFA;
+}
+.form-name {
+	text-transform: capitalize;
+}
+.error {
+	border: 1px solid red;
+}
+.error-block {
+	color: red;
+}
+
 .quiz-container{
   position: relative;
   height: 300px;
