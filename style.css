@@ -76,6 +76,9 @@ label:hover {
 	max-width: 400px;
 	margin-bottom: 15px;
 }
+.buttons {
+	opacity: 0;
+}
 .button {
 	cursor: pointer;
 	font-size: 15px;
