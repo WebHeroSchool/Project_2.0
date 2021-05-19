@@ -1,9 +1,13 @@
 const startButton = document.getElementById('start');
-
 const form = document.getElementById('form');
 const name = form.querySelector('.form-name');
+const slider = document.querySelector('.slider');
 
+// const quizContainer = document.querySelector('quiz-container');
+// const buttons = document.querySelector('.buttons');
 
+// quizContainer.style.display = 'none';
+// buttons.style.display = 'none';
 
 function startGame () {
 const questions = [
@@ -160,6 +164,8 @@ const setAnswerHandlers = () => {
 	})
 }
 
+slider.style.display = 'none';
+
 const slideNumber = document.getElementById('num-slide');
 const questionItem = document.getElementById('question');
 const resultContainer = document.getElementById('results');
@@ -189,23 +195,19 @@ setAnswerHandlers();
 
 const previousButton = document.getElementById('previous');
 const nextButton = document.getElementById('next');
-// const startButton = document.getElementById('start');
 const slides = document.querySelectorAll('.slide');
 let currentSlide = 0;
-let num = 0;
+let num = 1;
 
 showSlide(currentSlide);
 
 previousButton.addEventListener('click', showPreviousSlide);
 nextButton.addEventListener('click', showNextSlide);
 submitButton.addEventListener('click', showResults);
-// startButton.addEventListener('click', );
 }
-
 
 form.addEventListener('submit', function(event) {
 	let regex = /^[А-ЯЁа-яё]{2,10}$/;
-	// event.target.value = event.target.value[0].toUpperCase() + event.target.slice(1);
 	name.classList.remove('error');
 	if(!regex.test(name.value)) {
 		//очищаются стандартные настройки event
