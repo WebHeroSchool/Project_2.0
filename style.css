@@ -72,8 +72,7 @@ label:hover {
 }
 .scroll {
 	display: flex;
-	justify-content: space-between;
-	max-width: 400px;
+	justify-content: space-around;
 	margin-bottom: 15px;
 }
 .buttons {
@@ -89,11 +88,17 @@ label:hover {
 	padding: 6px;
 	background: #6eb7eb;
 	color: #15374f;
-	transition: all 0.4s ease-out;
+	transition: color .4s ease-out, visibility linear;
 }
 .button:hover {
 	color: #07253b;
 	box-shadow: inset 2px 2px 5px #15374f;
+}
+
+.slide-end {
+	text-align: center;
+	font-size: 40px;
+    color: #87CEFA;
 }
 .submit {
 	font-size: 20px;

@@ -11,13 +11,13 @@
 		<div class="slide-start">
 			<div class="start-game">Начало игры</div>
 			<form class="form" id="form" action="#">
+				<div class="error-block"></div>
 				<input class="form-name" type="text" name="nameForm" placeholder="Имя" required />
 				<button class="start button" id="start">Начать</button>
 			</form>
 		</div>
 
 		<div class="quiz-container">
-			<!-- <div class="num-question" id="num-slide"></div> -->
 			<div class="value-question" id="question"></div>
 		</div>
 
@@ -26,15 +26,16 @@
 				<div class="previous button" id="previous">Предыдущий вопрос</div>
 				<div class="next button" id="next">Следующий вопрос</div>
 			</div>
-			<!-- <div class="submit button" id="submit">Показать результаты</div> -->
+			<div class="restart button" id="restart">Начать сначала</div>
+			<div class="submit button" id="submit">Показать результаты</div>
 		</div>
 
 		<div class="game-over">
 			<div class="slide-end">Игра окончена</div>
-			<div class="submit button" id="submit">Показать результаты</div>
+			<!-- <div class="submit button" id="submit">Показать результаты</div> -->
+			<div class="results" id="results"></div>
 		</div>
 
-		<div class="results" id="results"></div>
 	</div>
 	<script src="js/script.js" type="text/javascript"></script>
 </body>

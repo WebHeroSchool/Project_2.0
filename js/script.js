@@ -3,6 +3,12 @@ const form = document.getElementById('form');
 const nameForm = form.querySelector('.form-name');
 const slider = document.querySelector('.slide-start');
 const buttons = document.querySelector('.buttons');
+const restartButton = document.getElementById('restart');
+const gameOver = document.querySelector('.game-over');
+const error = document.querySelector('.error-block');
+const quizContainer = document.querySelector('.quiz-container');
+
+gameOver.style.display = 'none';
 
 function startGame () {
 	slider.style.display = 'none';
@@ -76,6 +82,7 @@ function startGame () {
 		});
 		//объединяем наш выходной список в одну строку HTML и помещаем ее на страницу
 		questionItem.innerHTML = output.join("");
+		setTimeout(showResults, 10000);
 	}
 
 	function showSlide (n) {
@@ -83,27 +90,25 @@ function startGame () {
 		slides[n].classList.add('active-slide');
 		currentSlide = n;
 		if (currentSlide === 0) {
-			previousButton.style.display = 'none';
+			previousButton.style.visibility = 'hidden';
 		} else {
-			previousButton.style.display = 'inline-block';
+			previousButton.style.visibility = 'visible ';
 		}
 		if (currentSlide === slides.length - 1) {
-			nextButton.style.display = 'none';
-			submitButton.style.display = 'inline-block';
+			nextButton.style.visibility = 'hidden';
+			submitButton.style.visibility = 'visible ';
 		} else {
-			nextButton.style.display = 'inline-block';
-			submitButton.style.display = 'none';
+			nextButton.style.visibility = 'visible ';
+			submitButton.style.visibility = 'hidden';
 		}	
 	}
 
 	function showNextSlide () {
 		showSlide(currentSlide + 1);
-		// slideNumber.innerHTML = `Вопрос ${++ num}`;
 	}
 
 	function showPreviousSlide () {
 		showSlide(currentSlide - 1);
-		// slideNumber.innerHTML = `Вопрос ${-- num}`;
 	}
 
 	const showResults = () => {
@@ -128,6 +133,11 @@ function startGame () {
 		});
 		//показать количество правильных ответов из общего количества
 		resultContainer.innerHTML = `Количество правильных ответов: ${numCorrect} из ${questions.length}`;
+		gameOver.style.display = 'inline-block';
+		quizContainer.style.display = 'none';
+		previousButton.style.display = 'none';
+		nextButton.style.display = 'none';
+		submitButton.style.display = 'none';
 	}
 
 	const checkResult = (e) => {
@@ -181,9 +191,9 @@ function startGame () {
 	submitButton.addEventListener('click', showResults);
 } 
 
-let error = document.createElement('div');
-error.className = 'error-block';
-nameForm.parentElement.insertBefore(error, nameForm);
+// let error = document.createElement('div');
+// error.className = 'error-block';
+// nameForm.parentElement.insertBefore(error, nameForm);
 
 form.addEventListener('submit', function(event) {
 	let regex = /^[А-ЯЁа-яё]{2,10}$/;
@@ -198,7 +208,9 @@ form.addEventListener('submit', function(event) {
 		event.preventDefault();
 		startGame()
 	}
-})
+});
+
+restartButton.addEventListener('click', function(){ location.reload() });
 
 
 
