@@ -13,44 +13,65 @@ gameOver.style.display = 'none';
 function startGame () {
 	slider.style.display = 'none';
 	buttons.style.opacity = '1';
-	const questions = [
-		{
-			question: "Кто стал первым в истории человеком, который полетел в Космос?", 
-			answers: {
-				a: "Герман Титов",
-				b: "Юрий Гагарин",
-				c: "Алексей Леонов"
-			},
-			correctAnswer: "b"
-		},
-		{
-			question: "Кто стал первым в истории человеком, который вышел из космического корабля в открытый Космос?", 
-			answers: {
-				a: "Герман Титов",
-				b: "Юрий Гагарин",
-				c: "Алексей Леонов"
-			},
-			correctAnswer: "c"
-		},
-		{
-			question: "Что именно произошло 12 апреля 1961 года?", 
-			answers: {
-				a: "родился Юрий Гагарин",
-				b: "был запущен первый космический спутник",
-				c: "человек впервые совершил полёт в космическом пространстве"
-			},
-			correctAnswer: "c"
-		},
-		{
-			question: "Как звали конструктора, благодаря которому стал возможен первый космический полёт?", 
-			answers: {
-				a: "Сергей Королёв",
-				b: "Михаил Тихонравов",
-				c: "Михаил Ломоносов"
-			},
-			correctAnswer: "a"
-		}
-	];
+	// const questions = [
+	// 	{
+	// 		question: "Кто стал первым в истории человеком, который полетел в Космос?", 
+	// 		answers: {
+	// 			a: "Герман Титов",
+	// 			b: "Юрий Гагарин",
+	// 			c: "Алексей Леонов"
+	// 		},
+	// 		correctAnswer: "b"
+	// 	},
+	// 	{
+	// 		question: "Кто стал первым в истории человеком, который вышел из космического корабля в открытый Космос?", 
+	// 		answers: {
+	// 			a: "Герман Титов",
+	// 			b: "Юрий Гагарин",
+	// 			c: "Алексей Леонов"
+	// 		},
+	// 		correctAnswer: "c"
+	// 	},
+	// 	{
+	// 		question: "Что именно произошло 12 апреля 1961 года?", 
+	// 		answers: {
+	// 			a: "родился Юрий Гагарин",
+	// 			b: "был запущен первый космический спутник",
+	// 			c: "человек впервые совершил полёт в космическом пространстве"
+	// 		},
+	// 		correctAnswer: "c"
+	// 	},
+	// 	{
+	// 		question: "Как звали конструктора, благодаря которому стал возможен первый космический полёт?", 
+	// 		answers: {
+	// 			a: "Сергей Королёв",
+	// 			b: "Михаил Тихонравов",
+	// 			c: "Михаил Ломоносов"
+	// 		},
+	// 		correctAnswer: "a"
+	// 	}
+	// ];
+
+// fetch('https://opentdb.com/api.php?amount=10')
+// 	.then(response => response.json())
+
+// let response = await fetch('https://opentdb.com/api.php?amount=10');
+// let result = await response.json();
+
+/*async function getQuestion() {
+	let response = await fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple');
+	return await response.json();
+}
+let questions = getQuestion().then((json) => json.results);*/
+
+const questions = [];
+function getQuestion() {
+	fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple')
+	 .then(response => response.json())
+	 .then(json => {
+	 	questions.push(json.results);
+	 });
+}
 
 	//выводим в окно список вопросов с вариантами ответов
 	function buildQuiz() {
@@ -101,6 +122,7 @@ function startGame () {
 			nextButton.style.visibility = 'visible ';
 			submitButton.style.visibility = 'hidden';
 		}	
+
 	}
 
 	function showNextSlide () {
