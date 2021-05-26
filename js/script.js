@@ -16,39 +16,39 @@ function startGame () {
 	// const questions = [
 	// 	{
 	// 		question: "Кто стал первым в истории человеком, который полетел в Космос?", 
-	// 		answers: {
+	// 		incorrect_answers: {
 	// 			a: "Герман Титов",
 	// 			b: "Юрий Гагарин",
 	// 			c: "Алексей Леонов"
 	// 		},
-	// 		correctAnswer: "b"
+	// 		correct_answer: "b"
 	// 	},
 	// 	{
 	// 		question: "Кто стал первым в истории человеком, который вышел из космического корабля в открытый Космос?", 
-	// 		answers: {
+	// 		incorrect_answers: {
 	// 			a: "Герман Титов",
 	// 			b: "Юрий Гагарин",
 	// 			c: "Алексей Леонов"
 	// 		},
-	// 		correctAnswer: "c"
+	// 		correct_answer: "c"
 	// 	},
 	// 	{
 	// 		question: "Что именно произошло 12 апреля 1961 года?", 
-	// 		answers: {
+	// 		incorrect_answers: {
 	// 			a: "родился Юрий Гагарин",
 	// 			b: "был запущен первый космический спутник",
 	// 			c: "человек впервые совершил полёт в космическом пространстве"
 	// 		},
-	// 		correctAnswer: "c"
+	// 		correct_answer: "c"
 	// 	},
 	// 	{
 	// 		question: "Как звали конструктора, благодаря которому стал возможен первый космический полёт?", 
-	// 		answers: {
+	// 		incorrect_answers: {
 	// 			a: "Сергей Королёв",
 	// 			b: "Михаил Тихонравов",
 	// 			c: "Михаил Ломоносов"
 	// 		},
-	// 		correctAnswer: "a"
+	// 		correct_answer: "a"
 	// 	}
 	// ];
 
@@ -64,47 +64,93 @@ function startGame () {
 }
 let questions = getQuestion().then((json) => json.results);*/
 
-const questions = [];
+// const questions = [];
+// function getQuestion() {
+// 	fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple')
+// 	 .then(response => response.json())
+// 	 .then(json => {
+// 	 	questions.push(json.results);
+// 	 });
+// }
+
+let questions = [];
+
 function getQuestion() {
 	fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple')
 	 .then(response => response.json())
 	 .then(json => {
-	 	questions.push(json.results);
-	 });
-}
+	 	questions = json.results;
+	 })
+	 	//выводим в окно список вопросов с вариантами ответов
+	 .then(questions => {
+			//массив для вывода вопросов с вариантами ответов
+			const output = [];
+			//для каждого вопроса...
+			questions.forEach((currentQuestion, questionNumber) => {
+				//создаем массив с вариантами ответов
+				const incorrect_answers = [];
+				//для каждого варианта ответа...
+				for (letter in `${currentQuestion.incorrect_answers}${currentQuestion.correct_answer}`) {
+					//добавляем radio button, выводим ключ и его значение
+					incorrect_answers.push(
+			          `<label>
+			             <input type="radio" name="question${questionNumber}" value="${letter}">
+			              ${letter} : 
+			              ${currentQuestion.incorrect_answers[letter]}${currentQuestion.correct_answers[letter]}
+			           </label>`
+			        );
+				}
+				//добавим вопрос и варианты ответов в output
+				output.push(
+					`<div class="slide">
+						<div>Вопрос ${questionNumber + 1}</div>
+						<div class="question">${currentQuestion.question}</div>
+						<div class="answer">${incorrect_answers.join("")}</div>
+					</div>`
+				);
+			});
+			//объединяем наш выходной список в одну строку HTML и помещаем ее на страницу
+			questionItem.innerHTML = output.join("");
+			setTimeout(showResults, 10000);
+		}
+		// buildQuiz(questions);
 
-	//выводим в окно список вопросов с вариантами ответов
-	function buildQuiz() {
-		//массив для вывода вопросов с вариантами ответов
-		const output = [];
-		//для каждого вопроса...
-		questions.forEach((currentQuestion, questionNumber) => {
-			//создаем массив с вариантами ответов
-			const answers = [];
-			//для каждого варианта ответа...
-			for (letter in currentQuestion.answers) {
-				//добавляем radio button, выводим ключ и его значение
-				answers.push(
-		          `<label>
-		             <input type="radio" name="question${questionNumber}" value="${letter}">
-		              ${letter} : 
-		              ${currentQuestion.answers[letter]}
-		           </label>`
-		        );
-			}
-			//добавим вопрос и варианты ответов в output
-			output.push(
-				`<div class="slide">
-					<div>Вопрос ${questionNumber + 1}</div>
-					<div class="question">${currentQuestion.question}</div>
-					<div class="answer">${answers.join("")}</div>
-				</div>`
-			);
-		});
-		//объединяем наш выходной список в одну строку HTML и помещаем ее на страницу
-		questionItem.innerHTML = output.join("");
-		setTimeout(showResults, 10000);
-	}
+	 );
+}
+// getQuestion();
+
+	// //выводим в окно список вопросов с вариантами ответов
+	// function buildQuiz() {
+	// 	//массив для вывода вопросов с вариантами ответов
+	// 	const output = [];
+	// 	//для каждого вопроса...
+	// 	questions.forEach((currentQuestion, questionNumber) => {
+	// 		//создаем массив с вариантами ответов
+	// 		const incorrect_answers = [];
+	// 		//для каждого варианта ответа...
+	// 		for (letter in currentQuestion.incorrect_answers) {
+	// 			//добавляем radio button, выводим ключ и его значение
+	// 			incorrect_answers.push(
+	// 	          `<label>
+	// 	             <input type="radio" name="question${questionNumber}" value="${letter}">
+	// 	              ${letter} : 
+	// 	              ${currentQuestion.incorrect_answers[letter]}
+	// 	           </label>`
+	// 	        );
+	// 		}
+	// 		//добавим вопрос и варианты ответов в output
+	// 		output.push(
+	// 			`<div class="slide">
+	// 				<div>Вопрос ${questionNumber + 1}</div>
+	// 				<div class="question">${currentQuestion.question}</div>
+	// 				<div class="answer">${incorrect_answers.join("")}</div>
+	// 			</div>`
+	// 		);
+	// 	});
+	// 	//объединяем наш выходной список в одну строку HTML и помещаем ее на страницу
+	// 	questionItem.innerHTML = output.join("");
+	// 	setTimeout(showResults, 10000);
+	// }
 
 	function showSlide (n) {
 		slides[currentSlide].classList.remove('active-slide');
@@ -148,7 +194,7 @@ function getQuestion() {
 			const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
 			//если ответ верный
-			if (userAnswer === currentQuestion.correctAnswer) {
+			if (userAnswer === currentQuestion.correct_answer) {
 				//добавить к количеству правильных ответов единицу
 				numCorrect++;
 			}
@@ -172,7 +218,7 @@ function getQuestion() {
 			//получаем значение поля инпута
 			const userAnswer = tar.value;
 			//сравниваем выбранный пользователем ответ с выбранным ответом
-			const isCorrect = questions[questionNumber].correctAnswer === userAnswer;
+			const isCorrect = questions[questionNumber].correct_answer === userAnswer;
 			//если пользователь дал правильный ответ
 			if(isCorrect) {
 				//тогда окрашиваем шрифт в зеленый
@@ -198,7 +244,8 @@ function getQuestion() {
 	const resultContainer = document.getElementById('results');
 	const submitButton = document.getElementById('submit');
 
-	buildQuiz(questions);
+	// buildQuiz(questions);
+	getQuestion();
 	setAnswerHandlers();
 
 	const previousButton = document.getElementById('previous');
