@@ -11,8 +11,7 @@ const quizContainer = document.querySelector('.quiz-container');
 gameOver.style.display = 'none';
 
 function startGame () {
-	slider.style.display = 'none';
-	buttons.style.opacity = '1';
+	
 	// const questions = [
 	// 	{
 	// 		question: "Кто стал первым в истории человеком, который полетел в Космос?", 
@@ -52,18 +51,31 @@ function startGame () {
 	// 	}
 	// ];
 
-fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple')
-	 .then(response => response.json())
-	 .then(info => {
-	 	return info.results.map(item => {
-	 		item.incorrect_answers = item.incorrect_answers.concat(item.correct_answer);
-	 		return item
-	 	})
-	 })
-	 .then(info => buildQuiz(info))
-	 .then((currentSlide) => showSlide(currentSlide))
+	const previousButton = document.getElementById('previous');
+	const nextButton = document.getElementById('next');
+	let currentSlide = 0;
 
-	 	
+	fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple')
+		 .then(response => response.json())
+		 .then(info => {
+		 	return info.results.map(item => {
+		 		item.incorrect_answers = item.incorrect_answers.concat(item.correct_answer);
+		 		return item
+		 	})
+		 })
+		 .then(info => {
+		 	slider.style.display = 'none';
+			buttons.style.opacity = '1';
+		 	buildQuiz(info);
+		 	return info
+		 })
+		 
+		 // .then((info) => {
+		 // 	showResults(info);
+		 // 	return info
+		 // })
+		 .then(() => showSlide(0))
+
 	//выводим в окно список вопросов с вариантами ответов
 	function buildQuiz(info) {
 		//массив для вывода вопросов с вариантами ответов
@@ -74,7 +86,7 @@ fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=mu
 			const answers = [];
 			//для каждого варианта ответа...
 			for (let letter in currentQuestion.incorrect_answers) {
-				//добавляем radio button, выводим ключ и его значение
+				
 				answers.push(
 		          `<label>
 		             <input type="radio" name="question${questionNumber}" value="${letter}">
@@ -94,10 +106,11 @@ fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=mu
 		});
 		//объединяем наш выходной список в одну строку HTML и помещаем ее на страницу
 		questionItem.innerHTML = output.join("");
-		setTimeout(showResults, 10000);
+		// setTimeout(showResults, 10000);
 	}
 
 	function showSlide (n) {
+		const slides = document.querySelectorAll('.slide');
 		slides[currentSlide].classList.remove('active-slide');
 		slides[n].classList.add('active-slide');
 		currentSlide = n;
@@ -126,7 +139,7 @@ fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=mu
 
 	const showResults = (info) => {
 		//собрать контейнеры с ответами из нашей викторины
-		const answerContainers = questionItem.querySelectorAll('.answer');
+		let answerContainers = questionItem.querySelectorAll('.answer');
 		//отслеживать ответы пользователя
 		let numCorrect = 0;
 		//для каждого вопроса ...
@@ -193,10 +206,10 @@ fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=mu
 	// getQuestion();
 	setAnswerHandlers();
 
-	const previousButton = document.getElementById('previous');
-	const nextButton = document.getElementById('next');
-	const slides = document.querySelectorAll('.slide');
-	let currentSlide = 0;
+	// const previousButton = document.getElementById('previous');
+	// const nextButton = document.getElementById('next');
+	// const slides = document.querySelectorAll('.slide');
+	// let currentSlide = 0;
 
 	// showSlide(currentSlide);
 
