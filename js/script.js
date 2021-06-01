@@ -58,8 +58,6 @@ function startGame () {
 	const resultContainer = document.getElementById('results');
 	const submitButton = document.getElementById('submit');
 
-	// submitButton.addEventListener('click', showResults)
-
 	fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple')
 		 .then(response => response.json())
 		 .then(data => {
@@ -72,9 +70,6 @@ function startGame () {
 		 	slider.style.display = 'none';
 			buttons.style.opacity = '1';
 		 	
-		 	// buildQuiz(data);
-		 	// showSlide(0);
-
 		 	//Объявляем функцию, которая устанавлявает обработчик событий CheckResult на все блоки с вопросами
 			const setAnswerHandlers = () => {
 				Array.from(questionItem.querySelectorAll('.slide .answer')).forEach(answer => {
@@ -86,13 +81,9 @@ function startGame () {
 			showSlide(0);
 			previousButton.addEventListener('click', showPreviousSlide);
 			nextButton.addEventListener('click', showNextSlide);
-			submitButton.addEventListener('click', showResults);
-		 	// return data
-		 })
-		 // .then(() => showSlide(0))
-		 // .then((data) => showResults(data))
+			submitButton.addEventListener('click', () => showResults(data));
+		 })		 
 		 
-
 	//выводим в окно список вопросов с вариантами ответов
 	function buildQuiz(data) {
 		//массив для вывода вопросов с вариантами ответов
@@ -154,6 +145,7 @@ function startGame () {
 	}
 
 	const showResults = (data) => {
+		console.log(data);
 		//собрать контейнеры с ответами из нашей викторины
 		let answerContainers = questionItem.querySelectorAll('.answer');
 		//отслеживать ответы пользователя
@@ -173,6 +165,7 @@ function startGame () {
 				numCorrect++;
 			}
 		});
+		
 		//показать количество правильных ответов из общего количества
 		resultContainer.innerHTML = `Количество правильных ответов: ${numCorrect} из ${data.length}`;
 		gameOver.style.display = 'inline-block';
@@ -182,7 +175,7 @@ function startGame () {
 		submitButton.style.display = 'none';
 	}
 
-	const checkResult = (e) => {
+	function checkResult (e, data) {
 		//сохраняем в переменную tar DOM-элемент, по которому произошел клик
 		const tar = e.target;
 		//проверяем был ли совершен клик по input
@@ -207,7 +200,7 @@ function startGame () {
 		}
 	}
 
-	// //Объявляем функцию, которая устанавлявает обработчик событий CheckResult на все блоки с вопросами
+	//Объявляем функцию, которая устанавлявает обработчик событий CheckResult на все блоки с вопросами
 	// const setAnswerHandlers = () => {
 	// 	Array.from(questionItem.querySelectorAll('.slide .answer')).forEach(answer => {
 	// 		answer.addEventListener('click', checkResult);
