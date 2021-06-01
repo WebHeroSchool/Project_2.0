@@ -54,34 +54,51 @@ function startGame () {
 	const previousButton = document.getElementById('previous');
 	const nextButton = document.getElementById('next');
 	let currentSlide = 0;
+	const questionItem = document.getElementById('question');
+	const resultContainer = document.getElementById('results');
+	const submitButton = document.getElementById('submit');
+
+	// submitButton.addEventListener('click', showResults)
 
 	fetch('https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple')
 		 .then(response => response.json())
-		 .then(info => {
-		 	return info.results.map(item => {
+		 .then(data => {
+		 	return data.results.map(item => {
 		 		item.incorrect_answers = item.incorrect_answers.concat(item.correct_answer);
 		 		return item
 		 	})
 		 })
-		 .then(info => {
+		 .then(data => {
 		 	slider.style.display = 'none';
 			buttons.style.opacity = '1';
-		 	buildQuiz(info);
-		 	return info
+		 	
+		 	// buildQuiz(data);
+		 	// showSlide(0);
+
+		 	//Объявляем функцию, которая устанавлявает обработчик событий CheckResult на все блоки с вопросами
+			const setAnswerHandlers = () => {
+				Array.from(questionItem.querySelectorAll('.slide .answer')).forEach(answer => {
+					answer.addEventListener('click', checkResult);
+				})
+			}
+			buildQuiz(data);
+			setAnswerHandlers();
+			showSlide(0);
+			previousButton.addEventListener('click', showPreviousSlide);
+			nextButton.addEventListener('click', showNextSlide);
+			submitButton.addEventListener('click', showResults);
+		 	// return data
 		 })
+		 // .then(() => showSlide(0))
+		 // .then((data) => showResults(data))
 		 
-		 // .then((info) => {
-		 // 	showResults(info);
-		 // 	return info
-		 // })
-		 .then(() => showSlide(0))
 
 	//выводим в окно список вопросов с вариантами ответов
-	function buildQuiz(info) {
+	function buildQuiz(data) {
 		//массив для вывода вопросов с вариантами ответов
 		const output = [];
 		//для каждого вопроса...
-		info.forEach((currentQuestion, questionNumber) => {
+		data.forEach((currentQuestion, questionNumber) => {
 			//создаем массив с вариантами ответов
 			const answers = [];
 			//для каждого варианта ответа...
@@ -126,7 +143,6 @@ function startGame () {
 			nextButton.style.visibility = 'visible ';
 			submitButton.style.visibility = 'hidden';
 		}	
-
 	}
 
 	function showNextSlide () {
@@ -137,13 +153,13 @@ function startGame () {
 		showSlide(currentSlide - 1);
 	}
 
-	const showResults = (info) => {
+	const showResults = (data) => {
 		//собрать контейнеры с ответами из нашей викторины
 		let answerContainers = questionItem.querySelectorAll('.answer');
 		//отслеживать ответы пользователя
 		let numCorrect = 0;
 		//для каждого вопроса ...
-		info.forEach((currentQuestion, questionNumber) => {
+		data.forEach((currentQuestion, questionNumber) => {
 			//найти выбранный ответ
 			//перебрать все вопросы из квиза
 			const answerContainer = answerContainers[questionNumber];
@@ -158,7 +174,7 @@ function startGame () {
 			}
 		});
 		//показать количество правильных ответов из общего количества
-		resultContainer.innerHTML = `Количество правильных ответов: ${numCorrect} из ${info.length}`;
+		resultContainer.innerHTML = `Количество правильных ответов: ${numCorrect} из ${data.length}`;
 		gameOver.style.display = 'inline-block';
 		quizContainer.style.display = 'none';
 		previousButton.style.display = 'none';
@@ -176,7 +192,7 @@ function startGame () {
 			//получаем значение поля инпута
 			const userAnswer = tar.value;
 			//сравниваем выбранный пользователем ответ с выбранным ответом
-			const isCorrect = info[questionNumber].correct_answer === userAnswer;
+			const isCorrect = data[questionNumber].correct_answer === userAnswer;
 			//если пользователь дал правильный ответ
 			if(isCorrect) {
 				//тогда окрашиваем шрифт в зеленый
@@ -191,36 +207,27 @@ function startGame () {
 		}
 	}
 
-	//Объявляем функцию, которая устанавлявает обработчик событий CheckResult на все блоки с вопросами
-	const setAnswerHandlers = () => {
-		Array.from(questionItem.querySelectorAll('.slide .answer')).forEach(answer => {
-			answer.addEventListener('click', checkResult);
-		})
-	}
+	// //Объявляем функцию, которая устанавлявает обработчик событий CheckResult на все блоки с вопросами
+	// const setAnswerHandlers = () => {
+	// 	Array.from(questionItem.querySelectorAll('.slide .answer')).forEach(answer => {
+	// 		answer.addEventListener('click', checkResult);
+	// 	})
+	// }
 
-	const questionItem = document.getElementById('question');
-	const resultContainer = document.getElementById('results');
-	const submitButton = document.getElementById('submit');
+	// const questionItem = document.getElementById('question');
+	// const resultContainer = document.getElementById('results');
+	// const submitButton = document.getElementById('submit');
 
-	// buildQuiz(info);
-	// getQuestion();
-	setAnswerHandlers();
+	// setAnswerHandlers();
 
 	// const previousButton = document.getElementById('previous');
 	// const nextButton = document.getElementById('next');
-	// const slides = document.querySelectorAll('.slide');
 	// let currentSlide = 0;
 
-	// showSlide(currentSlide);
-
-	previousButton.addEventListener('click', showPreviousSlide);
-	nextButton.addEventListener('click', showNextSlide);
-	submitButton.addEventListener('click', showResults);
+	// previousButton.addEventListener('click', showPreviousSlide);
+	// nextButton.addEventListener('click', showNextSlide);
+	// submitButton.addEventListener('click', showResults);
 } 
-
-// let error = document.createElement('div');
-// error.className = 'error-block';
-// nameForm.parentElement.insertBefore(error, nameForm);
 
 form.addEventListener('submit', function(event) {
 	let regex = /^[А-ЯЁа-яё]{2,10}$/;
