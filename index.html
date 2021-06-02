@@ -7,13 +7,19 @@
 </head>
 <body>
 	<div class="wrap">
+		<div>
+			<video autoplay loop muted class="bgvideo" id="bgvideo" width="100%" height="auto">
+			   <source src="src/Background9584.mp4" type="video/mp4"></source>
+			   <source src="src/Background9584.webm" type="video/webm"></source>
+			</video>
+		</div>
 
 		<div class="slide-start">
-			<div class="start-game">Начало игры</div>
+			<div class="start-game">Enter your name</div>
 			<form class="form" id="form" action="#">
 				<div class="error-block"></div>
-				<input class="form-name" type="text" name="nameForm" placeholder="Имя" required />
-				<button class="start button" id="start">Начать</button>
+				<input class="form-name" type="text" name="nameForm" placeholder="Name" required />
+				<button class="start button" id="start">Start</button>
 			</form>
 		</div>
 
@@ -23,15 +29,15 @@
 
 		<div class="buttons">
 			<div class="scroll">
-				<div class="previous button" id="previous">Предыдущий вопрос</div>
-				<div class="next button" id="next">Следующий вопрос</div>
+				<div class="previous button" id="previous">Previous question</div>
+				<div class="next button" id="next">Next question</div>
 			</div>
-			<div class="restart button" id="restart">Начать сначала</div>
-			<div class="submit button" id="submit">Показать результаты</div>
+			<div class="restart button" id="restart">Restart</div>
+			<div class="submit button" id="submit">Show results</div>
 		</div>
 
 		<div class="game-over">
-			<div class="slide-end">Игра окончена</div>
+			<div class="slide-end">Game over</div>
 			<!-- <div class="submit button" id="submit">Показать результаты</div> -->
 			<div class="results" id="results"></div>
 		</div>

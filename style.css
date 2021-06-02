@@ -1,6 +1,17 @@
 body {
-	background: url(img/space-stars.jpg);
+	background: url(src/wallpaper.jpg);
 	font-family: 'Quicksand', sans-serif;
+  	background-size: cover;
+}
+.bgvideo {
+	position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -9999;
 }
 .wrap {
 	margin-left: auto;
@@ -11,7 +22,7 @@ body {
 .start-game {
 	text-align: center;
 	font-size: 40px;
-    color: #87CEFA;
+    color: #4A456B;
 }
 .form-name {
 	text-transform: capitalize;

@@ -73,7 +73,7 @@ function startGame () {
 		 	//Объявляем функцию, которая устанавлявает обработчик событий CheckResult на все блоки с вопросами
 			const setAnswerHandlers = () => {
 				Array.from(questionItem.querySelectorAll('.slide .answer')).forEach(answer => {
-					answer.addEventListener('click', checkResult);
+					answer.addEventListener('click', (e) => checkResult(e, data));
 				})
 			}
 			buildQuiz(data);
@@ -94,7 +94,13 @@ function startGame () {
 			const answers = [];
 			//для каждого варианта ответа...
 			for (let letter in currentQuestion.incorrect_answers) {
+				if (letter >= 3) {
+					String.fromCharCode(94 + 3);
+				}
 				
+				console.log(String.fromCharCode(94 + 3));
+				console.log(String.fromCharCode(94 + 3 + letter + 4));
+				console.log(letter);
 				answers.push(
 		          `<label>
 		             <input type="radio" name="question${questionNumber}" value="${letter}">
@@ -106,7 +112,7 @@ function startGame () {
 			//добавим вопрос и варианты ответов в output
 			output.push(
 				`<div class="slide">
-					<div>Вопрос ${questionNumber + 1}</div>
+					<div>Question ${questionNumber + 1}</div>
 					<div class="question">${currentQuestion.question}</div>
 					<div class="answer">${answers.join("")}</div>
 				</div>`
