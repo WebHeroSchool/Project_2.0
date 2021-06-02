@@ -94,15 +94,28 @@ function startGame () {
 			const answers = [];
 			//для каждого варианта ответа...
 			for (let letter in currentQuestion.incorrect_answers) {
-				if (letter >= 3) {
-					String.fromCharCode(94 + 3);
-				}
 				
-				console.log(String.fromCharCode(94 + 3));
-				console.log(String.fromCharCode(94 + 3 + letter + 4));
-				console.log(letter);
+				// if (letter >= 3) {
+				// 	String.fromCharCode(94 + 3);
+				// }
+				
+				// console.log(String.fromCharCode(94 + 3));
+				// console.log(String.fromCharCode(94 + 3 + letter + 4));
+				// console.log(letter);
+				
+				
+				//  if (letter === '0') {
+				// 	letter === 'a'
+				// } if (letter === '1') {
+				// 	letter === 'b'
+				// } if (letter === '2') {
+				// 	letter === 'c'
+				// } if (letter === '3') {
+				// 	letter === 'd'
+				// }
+
 				answers.push(
-		          `<label>
+		          `<label class="label">
 		             <input type="radio" name="question${questionNumber}" value="${letter}">
 		              ${letter} : 
 		              ${currentQuestion.incorrect_answers[letter]}
@@ -174,7 +187,7 @@ function startGame () {
 		
 		//показать количество правильных ответов из общего количества
 		resultContainer.innerHTML = `Количество правильных ответов: ${numCorrect} из ${data.length}`;
-		gameOver.style.display = 'inline-block';
+		gameOver.style.display = 'flex';
 		quizContainer.style.display = 'none';
 		previousButton.style.display = 'none';
 		nextButton.style.display = 'none';
@@ -201,8 +214,13 @@ function startGame () {
 			}
 			//выбираем все кнопки, которые находятся внутри блока с текущими вопросами
 			const radioButtons = e.currentTarget.querySelectorAll('.answer input');
-			//блокируем изменения ответа, юобавляя всем полям ввода атрибут disabled
-			radioButtons.forEach(button => button.setAttribute('disabled', true))
+			//блокируем изменения ответа, добавляя всем полям ввода атрибут disabled
+			radioButtons.forEach(button => button.setAttribute('disabled', true));
+
+			//выбираем все label, которые находятся внутри массива с вариантами ответов и 
+			//добавляем класс disable, убираем класс label
+			const radioLabel = e.currentTarget.querySelectorAll('.answer label');
+			radioLabel.forEach(labels => labels.classList.toggle('disable', 'label'))
 		}
 	}
 
@@ -229,14 +247,14 @@ function startGame () {
 } 
 
 form.addEventListener('submit', function(event) {
-	let regex = /^[А-ЯЁа-яё]{2,10}$/;
+	let regex = /^[А-ЯЁA-Z]{1}[а-яёa-z]{2,10}$/;
 	nameForm.classList.remove('error');
 	if(!regex.test(nameForm.value)) {
 		//очищаются стандартные настройки event
 		event.preventDefault();
 		console.log('error');
 		nameForm.classList.add('error');
-		error.innerHTML = 'Укажите верное имя';
+		error.innerHTML = 'Enter the correct name.<br>*the name must start with an uppercase letter and not have symbols or numbers';
 	} else {
 		event.preventDefault();
 		startGame()

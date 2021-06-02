@@ -16,11 +16,13 @@
 
 		<div class="slide-start">
 			<div class="start-game">Enter your name</div>
-			<form class="form" id="form" action="#">
-				<div class="error-block"></div>
-				<input class="form-name" type="text" name="nameForm" placeholder="Name" required />
-				<button class="start button" id="start">Start</button>
-			</form>
+			<div class="enter-name">
+				<form class="form" id="form" action="#">
+					<div class="error-block"></div>
+					<input class="form-name" type="text" name="nameForm" placeholder="Name" required />
+					<button class="start button" id="start">Start</button>
+				</form>
+			</div>
 		</div>
 
 		<div class="quiz-container">
@@ -29,8 +31,19 @@
 
 		<div class="buttons">
 			<div class="scroll">
-				<div class="previous button" id="previous">Previous question</div>
-				<div class="next button" id="next">Next question</div>
+				<!-- <div class="previous button" id="previous">Previous question</div>
+				<div class="next button" id="next">Next question</div> -->
+
+				<div class="buttons__arrow">
+					<div class="previous" id="previous">
+						<div class="arrow-1-top"></div>
+	    				<div class="arrow-1-bottom"></div>	
+					</div>
+					<div class="next" id="next">
+						<div class="arrow-2-top"></div>
+	   					<div class="arrow-2-bottom"></div>
+					</div>
+				</div>
 			</div>
 			<div class="restart button" id="restart">Restart</div>
 			<div class="submit button" id="submit">Show results</div>
@@ -38,7 +51,6 @@
 
 		<div class="game-over">
 			<div class="slide-end">Game over</div>
-			<!-- <div class="submit button" id="submit">Показать результаты</div> -->
 			<div class="results" id="results"></div>
 		</div>
 
