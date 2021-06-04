@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, width=device-width">
+	<title>Quiz</title>
+	<link rel="stylesheet" href="./style.css">
+	<link rel="shortcut icon" href="src/logo.PNG">
+</head>
+<body>
+	<div class="wrap">
+		<div>
+			<video autoplay loop muted class="bgvideo" id="bgvideo" width="100%" height="auto">
+			   <source src="src/Background9584.mp4" type="video/mp4"></source>
+			   <source src="src/Background9584.webm" type="video/webm"></source>
+			</video>
+		</div>
+
+		<div class="slide-start">
+			<div class="start-game">Enter your name</div>
+			<div class="enter-name">
+				<form class="form" id="form" action="#">
+					<div class="error-block"></div>
+					<input class="form-name" type="text" name="nameForm" placeholder="Name" required />
+					<button class="start button" id="start">Start</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="quiz-container">
+			<div class="timer"></div>
+			<div class="value-question" id="question"></div>
+		</div>
+
+		<div class="buttons">
+			<div class="scroll">
+				<div class="buttons__arrow">
+					<div class="previous" id="previous">
+						<div class="arrow-1-top"></div>
+	    				<div class="arrow-1-bottom"></div>	
+					</div>
+					<div class="next" id="next">
+						<div class="arrow-2-top"></div>
+	   					<div class="arrow-2-bottom"></div>
+					</div>
+				</div>
+			</div>
+			<div class="restart button" id="restart">Restart</div>
+			<div class="submit button" id="submit">Show results</div>
+		</div>
+
+		<div class="game-over">
+			<div class="slide-end">Game over</div>
+			<div class="results" id="results"></div>
+		</div>
+
+	</div>
+	<script src="js/script.js" type="text/javascript"></script>
+</body>
+</html>
