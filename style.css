@@ -14,6 +14,7 @@ body {
     z-index: -9999;
 }
 .wrap {
+	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
 	width: 700px;
@@ -41,12 +42,13 @@ body {
 }
 .quiz-container{
   position: relative;
-  height: 300px;
+  min-height: 300px;
   margin-top: 40px;
   font-size: 20px;
   font-weight: 800;
-  color: #D5DAE7;
   margin-bottom: 30px;
+  color: #4A456B;
+  text-shadow: 0 0 2px #D5DAE7;
 }
 .num-question {
 	text-align: center;
@@ -92,9 +94,12 @@ body {
 	background-size: 0% 0px;
 	color: #D5DAE7;
 }
-
-
-
+.timer {
+	color: #4A456B;
+	font-weight: 800;
+	font-size: 40px;
+	text-align: center;
+}
 
 .scroll {
 	display: flex;
@@ -206,6 +211,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin-bottom: 150px;
 }
 .button {
 	cursor: pointer;
@@ -233,9 +239,80 @@ body {
 	font-size: 40px;
 	font-weight: 800;
     color: #4A456B;
+    text-shadow: 0 0 2px #D5DAE7;
 }
 .results {
 	color: #4A456B;
+	text-shadow: 0 0 2px #D5DAE7;
 	font-size: 25px;
 	font-weight: 800;
+}
+
+.done {
+  pointer-events: none;
+}
+
+
+@media (max-width: 760px) {
+	.start-game {
+		font-size: 60px;
+	}
+	.form {
+		max-width: 200px;
+		min-height: 150px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		align-items: center;
+	}
+	.error-block {
+		text-align: center;
+	}
+	.quiz-container {
+		margin-left: 60px;
+	}
+}
+@media (max-width: 645px) {
+	.form-name {
+		width: 280px;
+		height: 55px;
+		font-size: 30px;
+	}
+	.form {
+		max-width: 300px;
+		min-height: 300px;
+	}
+	.button {
+	    font-size: 30px;
+	    min-width: 280px;
+	    min-height: 55px;
+	}
+	.results {
+		font-size: 30px;
+		text-align: center;
+	}
+	.game-over {
+		margin: 0 30px 0 30px;
+	}
+	.value-question {
+		font-size: 30px;
+	}
+	.quiz-container{
+	  min-height: 500px;
+	}
+}
+@media (max-width: 375px) {
+	.form-name {
+		width: 420px;
+		height: 75px;
+		font-size: 30px;
+	}
+	.button {
+	    font-size: 30px;
+	    min-width: 420px;
+	    min-height: 75px;
+	}
+	.error-block {
+		font-size: 20px;
+	}
 }

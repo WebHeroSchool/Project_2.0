@@ -7,50 +7,11 @@ const restartButton = document.getElementById('restart');
 const gameOver = document.querySelector('.game-over');
 const error = document.querySelector('.error-block');
 const quizContainer = document.querySelector('.quiz-container');
+let slides;
 
 gameOver.style.display = 'none';
 
 function startGame () {
-	
-	// const questions = [
-	// 	{
-	// 		question: "Кто стал первым в истории человеком, который полетел в Космос?", 
-	// 		answers: {
-	// 			a: "Герман Титов",
-	// 			b: "Юрий Гагарин",
-	// 			c: "Алексей Леонов"
-	// 		},
-	// 		correctAnswer: "b"
-	// 	},
-	// 	{
-	// 		question: "Кто стал первым в истории человеком, который вышел из космического корабля в открытый Космос?", 
-	// 		answers: {
-	// 			a: "Герман Титов",
-	// 			b: "Юрий Гагарин",
-	// 			c: "Алексей Леонов"
-	// 		},
-	// 		correctAnswer: "c"
-	// 	},
-	// 	{
-	// 		question: "Что именно произошло 12 апреля 1961 года?", 
-	// 		answers: {
-	// 			a: "родился Юрий Гагарин",
-	// 			b: "был запущен первый космический спутник",
-	// 			c: "человек впервые совершил полёт в космическом пространстве"
-	// 		},
-	// 		correctAnswer: "c"
-	// 	},
-	// 	{
-	// 		question: "Как звали конструктора, благодаря которому стал возможен первый космический полёт?", 
-	// 		answers: {
-	// 			a: "Сергей Королёв",
-	// 			b: "Михаил Тихонравов",
-	// 			c: "Михаил Ломоносов"
-	// 		},
-	// 		correctAnswer: "a"
-	// 	}
-	// ];
-
 	const previousButton = document.getElementById('previous');
 	const nextButton = document.getElementById('next');
 	let currentSlide = 0;
@@ -63,6 +24,7 @@ function startGame () {
 		 .then(data => {
 		 	return data.results.map(item => {
 		 		item.incorrect_answers = item.incorrect_answers.concat(item.correct_answer);
+		 		item.incorrect_answers.sort(() => Math.random() - 0.5);
 		 		return item
 		 	})
 		 })
@@ -78,9 +40,9 @@ function startGame () {
 			}
 			buildQuiz(data);
 			setAnswerHandlers();
-			showSlide(0);
-			previousButton.addEventListener('click', showPreviousSlide);
-			nextButton.addEventListener('click', showNextSlide);
+			showSlide(0, data);
+			previousButton.addEventListener('click', () => showPreviousSlide(data));
+			nextButton.addEventListener('click', () => showNextSlide(data));
 			submitButton.addEventListener('click', () => showResults(data));
 		 })		 
 		 
@@ -94,30 +56,10 @@ function startGame () {
 			const answers = [];
 			//для каждого варианта ответа...
 			for (let letter in currentQuestion.incorrect_answers) {
-				
-				// if (letter >= 3) {
-				// 	String.fromCharCode(94 + 3);
-				// }
-				
-				// console.log(String.fromCharCode(94 + 3));
-				// console.log(String.fromCharCode(94 + 3 + letter + 4));
-				// console.log(letter);
-				
-				
-				//  if (letter === '0') {
-				// 	letter === 'a'
-				// } if (letter === '1') {
-				// 	letter === 'b'
-				// } if (letter === '2') {
-				// 	letter === 'c'
-				// } if (letter === '3') {
-				// 	letter === 'd'
-				// }
-
+			//value получает значение ключа, в input передаем значение ключа
 				answers.push(
 		          `<label class="label">
-		             <input type="radio" name="question${questionNumber}" value="${letter}">
-		              ${letter} : 
+		             <input type="radio" name="question${questionNumber}" value="${currentQuestion.incorrect_answers[letter]}">
 		              ${currentQuestion.incorrect_answers[letter]}
 		           </label>`
 		        );
@@ -133,17 +75,45 @@ function startGame () {
 		});
 		//объединяем наш выходной список в одну строку HTML и помещаем ее на страницу
 		questionItem.innerHTML = output.join("");
-		// setTimeout(showResults, 10000);
 	}
 
-	function showSlide (n) {
-		const slides = document.querySelectorAll('.slide');
+	function timer (data) {
+		let minutes = 0;
+		let seconds = 10;
+
+		function displayTimer (n) {
+			return (n < 10 ? "0" : "") + n;
+		}
+		function blockSlide () {
+			if (seconds >= 0) {
+				document.querySelector('.timer').innerHTML = displayTimer(minutes) + ":" + displayTimer(seconds);
+				seconds--;
+			} else {
+				slides[currentSlide].classList.add('done');
+				clearInterval(IntBlockSlide);
+				if (currentSlide === slides.length - 1) {
+					showResults(data);
+				} else {
+					showNextSlide(data);
+				}
+			}
+		}
+		let IntBlockSlide = setInterval(blockSlide, 1000);
+		nextButton.addEventListener('click', () => clearInterval(IntBlockSlide));
+	    previousButton.addEventListener('click', () => clearInterval(IntBlockSlide));
+	}
+
+	function showSlide (n, data) {
+		slides = document.querySelectorAll('.slide');
 		slides[currentSlide].classList.remove('active-slide');
 		slides[n].classList.add('active-slide');
 		currentSlide = n;
+		//если текущий слайд равен 0
 		if (currentSlide === 0) {
+			// кнопку предыдущий слайд не показываем
 			previousButton.style.visibility = 'hidden';
 		} else {
+			//показываем кнопку следующий слайд
 			previousButton.style.visibility = 'visible ';
 		}
 		if (currentSlide === slides.length - 1) {
@@ -152,15 +122,17 @@ function startGame () {
 		} else {
 			nextButton.style.visibility = 'visible ';
 			submitButton.style.visibility = 'hidden';
-		}	
+		}
+		//запускаем отсчет времени
+		timer (data);	
 	}
 
-	function showNextSlide () {
-		showSlide(currentSlide + 1);
+	function showNextSlide (data) {
+		showSlide((currentSlide + 1), data);
 	}
 
-	function showPreviousSlide () {
-		showSlide(currentSlide - 1);
+	function showPreviousSlide (data) {
+		showSlide((currentSlide - 1), data);
 	}
 
 	const showResults = (data) => {
@@ -186,7 +158,7 @@ function startGame () {
 		});
 		
 		//показать количество правильных ответов из общего количества
-		resultContainer.innerHTML = `Количество правильных ответов: ${numCorrect} из ${data.length}`;
+		resultContainer.innerHTML = `${nameForm.value}, number of your correct answers: ${numCorrect} out of ${data.length}`;
 		gameOver.style.display = 'flex';
 		quizContainer.style.display = 'none';
 		previousButton.style.display = 'none';
@@ -223,28 +195,7 @@ function startGame () {
 			radioLabel.forEach(labels => labels.classList.toggle('disable', 'label'))
 		}
 	}
-
-	//Объявляем функцию, которая устанавлявает обработчик событий CheckResult на все блоки с вопросами
-	// const setAnswerHandlers = () => {
-	// 	Array.from(questionItem.querySelectorAll('.slide .answer')).forEach(answer => {
-	// 		answer.addEventListener('click', checkResult);
-	// 	})
-	// }
-
-	// const questionItem = document.getElementById('question');
-	// const resultContainer = document.getElementById('results');
-	// const submitButton = document.getElementById('submit');
-
-	// setAnswerHandlers();
-
-	// const previousButton = document.getElementById('previous');
-	// const nextButton = document.getElementById('next');
-	// let currentSlide = 0;
-
-	// previousButton.addEventListener('click', showPreviousSlide);
-	// nextButton.addEventListener('click', showNextSlide);
-	// submitButton.addEventListener('click', showResults);
-} 
+}
 
 form.addEventListener('submit', function(event) {
 	let regex = /^[А-ЯЁA-Z]{1}[а-яёa-z]{2,10}$/;
